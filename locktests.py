@@ -13,7 +13,7 @@ from stat import *
 from sys import *
 from os import *
 
-NFS4_PATH="/mnt/nfsv4"
+NFS4_PATH="/home/ec2-user/efs-mount-point/efs"
 NFS4_SERVER=""
 #NFS4_SERVER="nfs2:/"
 TEST_HOME="/home/vincent/locks/"
@@ -23,8 +23,9 @@ app="locktests"
 SRC="locktests-2.tar.gz"
 SRC_PATH="deploy"
 install="'tar xzf "+SRC+"; cd locks;  make `"
-user="root"
-
+user="ec2-user"
+pem_path="/home/ec2-user/secrets/ec2.pem"
+home = "/home/ec2-user"
 
 
 
@@ -50,7 +51,7 @@ class Client(Machine):
         self.mountPath=NFS4_PATH
 
     def do(self):
-        self.command="ssh "+user+"@"+self.machine+" "+self.command
+        self.command="ssh -i "+pem_path+" "+user+"@"+self.machine+" "+self.command
         os.system(self.command)
     
     def isomount(self, dir):
@@ -138,12 +139,12 @@ def setup():
 
 
 def run():
-    path=os.path.abspath(".")
+    path=home
     nbreClients=len(clients)
     hostname=socket.gethostname()
     # Lancement du serveur en local
     # Launch the server locally
-    commande=path+"/"+app+" -n "+nbreProcess+" -f "+filename+" -c "+str(nbreClients)+" &"
+    commande=path+"/locks/"+app+" -n "+nbreProcess+" -f "+filename+" -c "+str(nbreClients)+" &"
     os.system(commande)
     commande=path+"/locks/"+app+" --server "+hostname
     for i in clients:
