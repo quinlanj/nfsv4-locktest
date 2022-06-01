@@ -142,7 +142,7 @@ def setup():
 def run():
     path=home
     nbreClients=len(clients)
-    hostname=socket.gethostname()
+    hostname=os.environ["NFSV4_TEST_SERVER"]
     # Lancement du serveur en local
     # Launch the server locally
     commande=path+"/locks/"+app+" -n "+nbreProcess+" -f "+filename+" -c "+str(nbreClients)+" &"
