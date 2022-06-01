@@ -53,6 +53,7 @@ class Client(Machine):
     def do(self):
         self.command="ssh -i "+pem_path+" "+user+"@"+self.machine+" "+self.command
         os.system(self.command)
+        print "DEBUG:" + self.command
     
     def isomount(self, dir):
         export=NFS4_SERVER
