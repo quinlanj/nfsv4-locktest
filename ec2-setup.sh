@@ -10,3 +10,5 @@ make
 
 # only needed on the test server machine
 mkdir ~/secrets
+
+# TODO: open up port 12346 for inbound TCP traffic on test server instance
